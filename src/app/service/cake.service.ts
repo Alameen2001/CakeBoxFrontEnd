@@ -73,7 +73,22 @@ export class CakeService {
   isAuthenticated(){
     return 'token' in localStorage
   }
-  
+  listCategories(){
+    let header=new HttpHeaders({
+      'content-type':'application/json',
+      'Authorization':localStorage.getItem('token')??''
+    })
+    return this.http.get(`${this.baseUrl}/cakes/categories/`,{"headers":header})
+
+  }
+  filterProductsByCategory(cat:any){
+    let header=new HttpHeaders({
+      'content-type':'application/json',
+      'Authorization':localStorage.getItem('token')??''
+    })
+    return this.http.get(`${this.baseUrl}/cakes/?category=${cat}`,{"headers":header})
+
+  }
 
 
 }
