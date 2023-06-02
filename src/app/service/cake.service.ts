@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient,HttpHeaders} from '@angular/common/http'
+import { Subject,tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +10,11 @@ export class CakeService {
   headers=new HttpHeaders({
     'content-type':'application/json'
   })
+
+  private _reloadrequired=new Subject<void>()
+ get reloadRequired(){
+  return this._reloadrequired
+ }
 
   constructor(private http:HttpClient) { }
 
@@ -39,7 +45,9 @@ export class CakeService {
       'Authorization':localStorage.getItem('token')??''
     })
     
-    return this.http.post(`${this.baseUrl}/cakes/${id}/add_to_cart/`,null,{"headers":header})
+    return this.http.post(`${this.baseUrl}/cakes/${id}/add_to_cart/`,null,{"headers":header}).pipe(
+      tap(()=>this.reloadRequired.next())
+    )
   }
   listCart(){
     let header=new HttpHeaders({

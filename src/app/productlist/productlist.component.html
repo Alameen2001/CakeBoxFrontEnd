@@ -1,5 +1,7 @@
-<div *ngFor="let cat of categories">
-    <button class="btn btn-outline-primary" (click)="getProductByCategory(cat)">{{cat}}</button>
+<div class="d-flex justify-content-around mt-5">
+ <div *ngFor="let cat of categories">
+    <button class="btn btn-outline-dark" (click)="getProductByCategory(cat)">{{cat}}</button>
+</div>
 </div>
 
 
